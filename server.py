@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 import json
 
 # Загрузка переменных окружения
-load_dotenv()
+load_dotenv(override=True)
 TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 API_KEY = os.getenv('API_KEY') 
 
@@ -36,7 +36,7 @@ def handle_start(message):
     chat_id = message.chat.id
     user_chats[str(user_id)] = chat_id  # сохраняем как строку для совместимости с JSON
     save_user_chats()
-    bot.reply_to(message, f"Вы успешно зарегистрированы! Ваш ID: {user_id}. Чтобы узнать готов ли ваш автомобиль, отправьте /ready")
+    bot.reply_to(message, f"Вы успешно зарегистрированы! Ваш ID: {user_id}.")
 
 # Обработчик команды /ready для оповещения о готовности авто
 @bot.message_handler(commands=['ready'])
@@ -71,6 +71,7 @@ def send_notification():
     data = request.json
     user_id = str(data.get('user_id'))
     message_text = data.get('message')
+    print(user_id)
     
     if not user_id or not message_text:
         return jsonify({"status": "error", "message": "Missing user_id or message"}), 400
@@ -96,4 +97,4 @@ if __name__ == '__main__':
     bot_thread.start()
     
     # Запускаем Flask сервер для API
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5050)
