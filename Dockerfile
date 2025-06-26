@@ -18,4 +18,4 @@ RUN chmod +x start.sh
 EXPOSE 5050
 
 # Запускаем приложение (без .venv)
-CMD ["./start-container.sh"]c
+CMD ["./start-container.sh"]
